@@ -48,7 +48,14 @@ def intent():
 
     try:
         intents = model.classify(data["text"])
-        return jsonify({"intents ": [{"label": label} for label in intents]}), 200
+        return (
+            jsonify(
+                {
+                    "intents ": [{"label": label} for label in intents],
+                }
+            ),
+            200,
+        )
     except Exception as e:
         return (
             jsonify(
