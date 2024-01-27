@@ -1,11 +1,11 @@
 name: Docker Image CI
 
 on: # yamllint disable-line rule:truthy
-  workflow_dispatch:    
+  workflow_dispatch:
   push:
-#    branches:    
-#      - main
-    tags:        
+    #    branches:
+    #      - main
+    tags:
       - v*
 jobs:
   build:
