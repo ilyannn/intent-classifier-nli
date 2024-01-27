@@ -4,7 +4,6 @@ import argparse
 import os
 
 from flask import Blueprint, Flask, jsonify, request
-
 from intent_classifier import IntentClassifier
 
 DEFAULT_MODEL_PATH = os.getenv("MODEL")

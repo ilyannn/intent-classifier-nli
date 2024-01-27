@@ -35,5 +35,5 @@ jobs:
 
       - name: Run tests
         run: |
-          python3.11 -m unittest *.py
-          python3.12 -m unittest *.py
+          python3.11 -m unittest tests/*.py
+          python3.12 -m unittest tests/*.py
