@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import pickle
-import unittest
 
 from sklearn.tree import DecisionTreeClassifier
 

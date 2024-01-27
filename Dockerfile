@@ -14,9 +14,9 @@ RUN python3.11 -m venv /home/myuser/venv
 ENV PATH="/home/myuser/venv/bin:$PATH"
 
 # install requirements
+WORKDIR /workdir
 COPY requirements.txt .
-RUN pip3 install --no-cache-dir wheel
-RUN pip3 install --no-cache-dir gunicorn -r requirements.txt
+RUN pip3 install --no-cache-dir wheel && pip3 install --no-cache-dir gunicorn -r requirements.txt
 
 
 FROM ubuntu:22.04 AS runner-image

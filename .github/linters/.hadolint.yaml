@@ -1,0 +1,4 @@
+failure-threshold: error
+
+ignored:
+  - DL3029  # Do not use --platform= with FROM.
