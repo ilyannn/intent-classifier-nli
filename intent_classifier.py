@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pickle
+import unittest
 
 from sklearn.tree import DecisionTreeClassifier
 
@@ -26,8 +27,5 @@ class IntentClassifier:
         utterance = utterance.lower().replace("?", "")
         predict = self.model["tree"].predict
         words = set(utterance.split(" "))
-        return [predict([[int(word in words) for word in self.model["words"]]])[0]]
-
-
-if __name__ == "__main__":
-    pass
+        features = [int(word in words) for word in self.model["words"]]
+        return [predict([features])[0]]
