@@ -163,5 +163,3 @@ cython_debug/
 ### Flask template
 instance/*
 !instance/.gitignore
-.webassets-cache
-.env
