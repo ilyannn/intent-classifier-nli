@@ -1,0 +1,56 @@
+Makefile
+Justfile
+data/
+docs/
+
+# Ignore .github
+.github/
+
+# Ignore IDE files
+.vscode/
+.idea/
+
+# Ignore git and metadata files
+.git
+.gitignore
+.dockerignore
+README.md
+LICENSE
+
+# Ignore Python cache files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Ignore jupyter notebook checkpoints
+.ipynb_checkpoints
+
+# Ignore log, temporary files and directories
+*.log
+*.tmp
+*.bak
+*.swp
+*~
+.#*
+.temp*
+
+# Ignore Linux/Mac/Windows OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Ignore config and environment files
+*.env
+
+# Ignore build / distribution files
+dist/
+build/
+*.egg-info/
+*.egg
+
+# Ignore local virtual environments
+venv/
+.venv/
