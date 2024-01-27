@@ -4,8 +4,9 @@ import argparse
 import os
 
 from flask import Blueprint, Flask, request, jsonify
-
 from intent_classifier import IntentClassifier
+
+DEFAULT_MODEL_PATH = os.getenv("MODEL")
 
 api = Blueprint("main", __name__)
 model = IntentClassifier()
@@ -24,7 +25,10 @@ def intent():
     if not request.is_json:
         return (
             jsonify(
-                {"label": "BODY_MISSING", "message": "Request doesn't have a body."}
+                {
+                    "label": "BODY_MISSING",
+                    "message": "Request doesn't have a body.",
+                }
             ),
             400,
         )
@@ -56,12 +60,10 @@ def intent():
         )
 
 
-DEFAULT_MODEL_PATH = os.getenv("MODEL")
-
-
 def create_app(model_path=DEFAULT_MODEL_PATH):
     if not model_path:
         raise ValueError("Please provide model path as a MODEL environment variable")
+
     app = Flask(__name__)
     app.register_blueprint(api)
     model.load(model_path)
@@ -70,6 +72,7 @@ def create_app(model_path=DEFAULT_MODEL_PATH):
 
 def main():
     arg_parser = argparse.ArgumentParser()
+
     arg_parser.add_argument(
         "--model",
         type=str,
@@ -77,11 +80,15 @@ def main():
         required=not DEFAULT_MODEL_PATH,
         help="Path to model directory or file.",
     )
-    arg_parser.add_argument(
-        "--port", type=int, default=os.getenv("PORT", 8080), help="Server port number."
-    )
-    args = arg_parser.parse_args()
 
+    arg_parser.add_argument(
+        "--port",
+        type=int,
+        default=os.getenv("PORT", 8080),
+        help="Server port number.",
+    )
+
+    args = arg_parser.parse_args()
     app = create_app(args.model)
     app.run(port=args.port)
 
