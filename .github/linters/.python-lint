@@ -1,0 +1,7 @@
+[MAIN]
+jobs = 0
+output-format = colorized
+exit-zero = True
+
+[MESSAGES CONTROL]
+disable = import-error,no-name-in-module

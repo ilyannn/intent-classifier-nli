@@ -1,0 +1,39 @@
+name: Python Unit Tests
+
+on: # yamllint disable-line rule:truthy
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies in Python 3.11
+        run: |
+          python3.11 -m pip install --upgrade pip
+          python3.11 -m pip install -r requirements.txt
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+
+      - name: Install dependencies in Python 3.12
+        run: |
+          python3.12 -m pip install --upgrade pip
+          python3.12 -m pip install -r requirements.txt
+
+      - name: Run tests
+        run: |
+          python3.11 -m unittest *.py
+          python3.12 -m unittest *.py
