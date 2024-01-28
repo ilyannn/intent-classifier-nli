@@ -19,8 +19,8 @@ class IntentClassifier:
             assert isinstance(self.model, dict)
             assert "tree" in self.model and "words" in self.model
             assert isinstance(self.model["tree"], DecisionTreeClassifier)
-        except AssertionError:
-            raise ValueError("Unexpected model format")
+        except AssertionError as e:
+            raise ValueError("Unexpected model format") from e
 
     def classify(self, utterance):
         utterance = utterance.lower().replace("?", "")

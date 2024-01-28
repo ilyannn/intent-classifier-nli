@@ -91,7 +91,7 @@ def main():
     arg_parser.add_argument(
         "--port",
         type=int,
-        default=os.getenv("PORT", 8080),
+        default=os.getenv("PORT") or 8080,
         help="Server port number.",
     )
 

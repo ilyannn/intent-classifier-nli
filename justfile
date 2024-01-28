@@ -5,9 +5,9 @@ _default:
 
 
 # Update this list as necessary
-docker_files := "Dockerfile*"
+docker_files := "server/Dockerfile*"
 markdown_files := "*.md"
-python_files := "*.py tests/*.py"
+python_files := "server/*.py server/tests/*.py"
 yaml_files := ".github/*/*.yml"
 
 
@@ -35,9 +35,9 @@ lint:
 
 # test Python files
 test:
-    python -m unittest {{python_files}}
+    cd server && python -m unittest tests/*.py
 
 
-# run the application in Docker
-run:
-    {{container_tool}} run -it -p 8080:5501 `{{container_tool}} build -q .` 
+# run the server application in Docker
+serve port:
+    {{container_tool}} run -it -p {{port}}:5501 `{{container_tool}} build -q server` 
