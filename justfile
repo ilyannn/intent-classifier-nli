@@ -5,9 +5,9 @@ _default:
 
 
 # Update this list as necessary
-docker_files := "server/Dockerfile*"
+docker_files := "*/Dockerfile*"
 markdown_files := "*.md"
-python_files := "client/*.py server/*.py server/tests/*.py"
+python_files := "**/*.py"
 yaml_files := ".github/*/*.yml"
 
 
