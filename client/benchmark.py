@@ -9,8 +9,8 @@ import click
 import numpy as np
 import requests
 
-RETRY_SECONDS = 5
 DEFAULT_JOBS = 4
+RETRY_SECONDS = 5
 
 
 @dataclass
@@ -43,7 +43,7 @@ def format_error(s):
     return click.style(s, fg="red", bold=True)
 
 
-def format_stream_name(stream):
+def format_stream(stream):
     if hasattr(stream, "name"):
         return click.style(stream.name, fg="green", bold=True)
     return click.style(str(stream), fg="green")
@@ -65,17 +65,12 @@ def format_query(query):
     return click.style(query, dim=True)
 
 
-def format_s(seconds):
-    return (
-        click.style(
-            f"{seconds:.1f}" if seconds != int(seconds) else seconds, fg="yellow"
-        )
-        + "s"
-    )
+def format_seconds(s):
+    return click.style(f"{s:.1f}" if s != int(s) else s, fg="yellow") + "s"
 
 
-def format_dim(s):
-    return click.style(s, dim=True)
+def format_dim(value):
+    return click.style(value, dim=True)
 
 
 def format_url(url):
@@ -109,7 +104,7 @@ def f1_scores(confusion_matrix):
 
 
 def _get_intent(client, query, correct_label):
-    """Perform a request and return the result is correct as well as request time"""
+    """Perform a request and return the result as well as request metadata"""
     start_time = time.time()
     intents = client.intents(query)
     return intents[0].label, correct_label, query, time.time() - start_time
@@ -151,9 +146,7 @@ def benchmark(tsv_file, url: str, jobs: int, output):
 
     data = list(csv.reader(tsv_file, delimiter="\t"))
     total = len(data)
-    click.echo(
-        f"Read {format_integer(total)} lines from {format_stream_name(tsv_file)}"
-    )
+    click.echo(f"Read {format_integer(total)} lines from {format_stream(tsv_file)}")
     if not total:
         click.echo(format_error("No test data found"))
         return 1
@@ -215,7 +208,7 @@ def benchmark(tsv_file, url: str, jobs: int, output):
 
     f_statistics = f"""
 Request time: min {f_min}, max {f_max}, avg {f_avg} ± {f_std}, 50% {f_med}, 95% {f_95}
-Real time elapsed: {format_s(time_taken)} ({f_rps} requests per second)
+Real time elapsed: {format_seconds(time_taken)} ({f_rps} requests per second)
 
 Received {f_correct} correct and {f_incorrect} incorrect answers ({f_failed} failed)
 Accuracy: {format_percentage(accuracy)}
@@ -230,12 +223,10 @@ F1 scores for each class:
     click.echo()
 
     if output:
-        click.echo(f"Incorrect answers to be written to {format_stream_name(output)}")
-        for model_label, correct_label, query in incorrect_lines:
+        click.echo(f"Incorrect answers to be written to {format_stream(output)}")
+        for ml, cl, q in incorrect_lines:
             click.echo(
-                "\t".join(
-                    (format_error(model_label), correct_label, format_query(query))
-                ),
+                "\t".join((format_error(ml), cl, format_query(q))),
                 file=output,
             )
     return 0
