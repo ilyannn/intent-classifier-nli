@@ -1,0 +1,11 @@
+[tool.black]
+# Code should work under either Python 3.11 or 3.12
+target-version = ['py311', 'py312']
+
+[tool.isort]
+profile = "black"
+py_version = 311
+skip_gitignore = true
+multi_line_output = 3
+# Let isort know tbat this is a local module
+known_local_folder = ["intent_classifier"]
