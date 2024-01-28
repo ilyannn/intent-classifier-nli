@@ -43,7 +43,7 @@ def format_error(s):
     return click.style(s, fg="red", bold=True)
 
 
-def format_input_name(stream):
+def format_stream_name(stream):
     if hasattr(stream, "name"):
         return click.style(stream.name, fg="green", bold=True)
     return click.style(str(stream), fg="green")
@@ -151,7 +151,9 @@ def benchmark(tsv_file, url: str, jobs: int, output):
 
     data = list(csv.reader(tsv_file, delimiter="\t"))
     total = len(data)
-    click.echo(f"Read {format_integer(total)} lines from {format_input_name(tsv_file)}")
+    click.echo(
+        f"Read {format_integer(total)} lines from {format_stream_name(tsv_file)}"
+    )
     if not total:
         click.echo(format_error("No test data found"))
         return 1
@@ -201,12 +203,13 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         format_integer(stats[key]) for key in (True, False, None)
     )
     p_95 = lambda v: np.percentile(v, 95)
-    f_min, f_max, f_med, f_std, f_95 = (
-        format_ms(f(req_times)) for f in (np.min, np.max, np.median, np.std, p_95)
+    f_min, f_max, f_avg, f_med, f_std, f_95 = (
+        format_ms(f(req_times))
+        for f in (np.min, np.max, np.mean, np.median, np.std, p_95)
     )
 
     f_statistics = f"""
-Request time: min {f_min}, max {f_max}, 50% {f_med}, 95% {f_95}, stddev {f_std}
+Request time: min {f_min}, max {f_max}, avg {f_avg} ± {f_std}, 50% {f_med}, 95% {f_95}
 Real time elapsed: {format_s(time_taken)} ({format_integer(total / time_taken)} requests per second)
 
 Received {f_correct} correct and {f_incorrect} incorrect answers ({f_failed} failed)
@@ -222,6 +225,7 @@ F1 scores for each class:
     click.echo()
 
     if output:
+        click.echo(f"Incorrect answers to be written to {format_stream_name(output)}")
         for model_label, correct_label, query in incorrect_lines:
             click.echo(
                 "\t".join(
