@@ -7,7 +7,7 @@ on: # yamllint disable-line rule:truthy
     branches: [main]
 
 jobs:
-  build:
+  server-unittests:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies in Python 3.11
         run: |
           python3.11 -m pip install --upgrade pip
-          python3.11 -m pip install -r requirements.txt
+          python3.11 -m pip install -r server/requirements.txt
 
       - name: Set up Python 3.12
         uses: actions/setup-python@v5
@@ -31,9 +31,9 @@ jobs:
       - name: Install dependencies in Python 3.12
         run: |
           python3.12 -m pip install --upgrade pip
-          python3.12 -m pip install -r requirements.txt
+          python3.12 -m pip install -r server/requirements.txt
 
       - name: Run tests
         run: |
-          python3.11 -m unittest tests/*.py
-          python3.12 -m unittest tests/*.py
+          python3.11 -m unittest server/tests/*.py
+          python3.12 -m unittest server/tests/*.py
