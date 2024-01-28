@@ -44,7 +44,6 @@ lint:
 test:
     cd server && python -m unittest tests/*.py
 
-
 # run the server application in Docker
 serve port:
     {{container_tool}} run -it -p {{port}}:5501 `{{container_tool}} build -q server` 
