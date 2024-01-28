@@ -32,6 +32,7 @@ lint:
     markdownlint --config .github/linters/.markdown-lint.yml -- {{markdown_files}}
     prettier --check -- {{markdown_files}} {{yaml_files}}
     flake8 --config .github/linters/.flake8 -- {{python_files}}
+    mypy --config-file .github/linters/.mypy.ini -- {{python_files}}
     isort --settings-path .github/linters/.isort.cfg --check --diff -- {{python_files}}
     black --check --fast --diff --color -- {{python_files}}
     pylint --rcfile .github/linters/.python-lint -- {{python_files}} 

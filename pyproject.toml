@@ -1,3 +1,8 @@
+[project]
+name = "intent-classifier"
+readme = "README.md"
+requires-python = ">= 3.11"
+
 [tool.black]
 # Code should work under either Python 3.11 or 3.12
 target-version = ['py311', 'py312']

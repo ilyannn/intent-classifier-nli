@@ -4,6 +4,7 @@ import time
 from collections import defaultdict
 from dataclasses import dataclass
 from multiprocessing import Pool
+from typing import Union
 
 import click
 import numpy as np
@@ -151,10 +152,9 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         click.echo(format_error("No test data found"))
         return 1
 
-    stats = defaultdict(int)
-    confusion = defaultdict(lambda: defaultdict(int))
+    stats: dict[Union[bool, None], int] = defaultdict(int)
+    confusion: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
     incorrect_lines = []
-    all_labels = {label for _, label in data}
     req_times = []
     start_time = time.time()
 
@@ -163,7 +163,6 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         def success(result):
             model_label, correct_label, query, req_time = result
             stats[model_label == correct_label] += 1
-            all_labels.add(model_label)
             confusion[correct_label][model_label] += 1
             req_times.append(req_time)
             if correct_label != model_label:
