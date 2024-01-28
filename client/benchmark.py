@@ -31,7 +31,7 @@ class IntentClassifierClient:
         response = requests.post(intent_url, json={"text": text})
         if response.status_code != 200:
             return None
-        intents = response.json().get("intents ")
+        intents = response.json().get("intents")
         return [Intent(label=obj["label"]) for obj in intents]
 
 
