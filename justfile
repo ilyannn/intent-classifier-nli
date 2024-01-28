@@ -11,15 +11,21 @@ python_files := "client/*.py server/*.py server/tests/*.py"
 yaml_files := ".github/*/*.yml"
 
 
-container_tool := "podman"
+# Server instance URL for benchmarking
 server_instance := "https://intents.cluster.megaver.se"
+
+# Do you prefer Docker or Podman?
+container_tool := "podman"
+
+# Code should work under either Python 3.11 or 3.12
+black_options := "-t py311 -t py312" 
 
 
 # format Markdown, YAML and Python files
 fmt:
     prettier --write -- {{markdown_files}} {{yaml_files}}
     isort --settings-path .github/linters/.isort.cfg -- {{python_files}}
-    black -- {{python_files}}
+    black {{black_options}} --safe -- {{python_files}}
 
 
 # lint Markdown, YAML, Dockerfiles and Python files
@@ -30,7 +36,7 @@ lint:
     prettier --check -- {{markdown_files}} {{yaml_files}}
     flake8 --config .github/linters/.flake8 -- {{python_files}}
     isort --settings-path .github/linters/.isort.cfg  --check --diff -- {{python_files}}
-    black --diff -- {{python_files}}
+    black {{black_options}} --check --fast --diff --color -- {{python_files}}
     pylint --rcfile .github/linters/.python-lint -- {{python_files}} 
 
 
