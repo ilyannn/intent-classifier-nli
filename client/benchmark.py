@@ -202,7 +202,10 @@ def benchmark(tsv_file, url: str, jobs: int, output):
     f_correct, f_incorrect, f_failed = (
         format_integer(stats[key]) for key in (True, False, None)
     )
-    p_95 = lambda v: np.percentile(v, 95)
+
+    def p_95(array):
+        np.percentile(array, 95)
+
     f_min, f_max, f_avg, f_med, f_std, f_95 = (
         format_ms(f(req_times))
         for f in (np.min, np.max, np.mean, np.median, np.std, p_95)
@@ -215,7 +218,7 @@ Real time elapsed: {format_s(time_taken)} ({format_integer(total / time_taken)} 
 Received {f_correct} correct and {f_incorrect} incorrect answers ({f_failed} failed)
 Accuracy: {format_percentage(accuracy)}
 
-F1 scores for each class: 
+F1 scores for each class:
 """ + "\n".join(
         f"  {label} ({', '.join(map(format_integer, nums))}): {format_confusion(value)}"
         for label, *nums, value in f1_scores(confusion)
@@ -233,6 +236,7 @@ F1 scores for each class:
                 ),
                 file=output,
             )
+    return 0
 
 
 if __name__ == "__main__":
