@@ -50,7 +50,7 @@ def intent():
         return (
             jsonify(
                 {
-                    "intents ": [{"label": label} for label in intents],
+                    "intents": [{"label": label} for label in intents],
                 }
             ),
             200,
