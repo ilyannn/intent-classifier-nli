@@ -35,14 +35,6 @@ class IntentClassifierClient:
         return [Intent(label=obj["label"]) for obj in intents]
 
 
-def get_intent(client, query, correct_label):
-    """Perform a request and return the result is correct as well as request time"""
-    start_time = time.time()
-    intents = client.intents(query)
-    req_time = time.time() - start_time
-    return intents[0].label, correct_label, req_time
-
-
 def format_confusion(c):
     return click.style(f"{c:.02}", fg="green")
 
@@ -67,6 +59,10 @@ def format_ms(seconds):
 
 def format_percentage(p):
     return click.style(f"{100 * p:.2f}", fg="green") + "%"
+
+
+def format_query(query):
+    return click.style(query, dim=True)
 
 
 def format_s(seconds):
@@ -112,6 +108,13 @@ def f1_scores(confusion_matrix):
     ]
 
 
+def _get_intent(client, query, correct_label):
+    """Perform a request and return the result is correct as well as request time"""
+    start_time = time.time()
+    intents = client.intents(query)
+    return intents[0].label, correct_label, query, time.time() - start_time
+
+
 @click.command()
 @click.argument("tsv_file", type=click.File())
 @click.option(
@@ -128,7 +131,14 @@ def f1_scores(confusion_matrix):
     show_default=True,
     help="The number of requests to run in parallel",
 )
-def benchmark(tsv_file: str, url: str, jobs: int):
+@click.option(
+    "-o",
+    "--output",
+    type=click.File("w"),
+    show_default=True,
+    help="Output errors in TSV format (- for stdout)",
+)
+def benchmark(tsv_file, url: str, jobs: int, output):
     click.echo(f"Using base URL: {format_url(url)}")
     client = IntentClassifierClient(url)
 
@@ -148,6 +158,7 @@ def benchmark(tsv_file: str, url: str, jobs: int):
 
     stats = defaultdict(int)
     confusion = defaultdict(lambda: defaultdict(int))
+    incorrect_lines = []
     all_labels = {label for _, label in data}
     req_times = []
     start_time = time.time()
@@ -155,11 +166,13 @@ def benchmark(tsv_file: str, url: str, jobs: int):
     with click.progressbar(length=total) as progress:
 
         def success(result):
-            model_label, correct_label, req_time = result
+            model_label, correct_label, query, req_time = result
             stats[model_label == correct_label] += 1
             all_labels.add(model_label)
             confusion[correct_label][model_label] += 1
             req_times.append(req_time)
+            if correct_label != model_label:
+                incorrect_lines.append((model_label, correct_label, query))
             progress.update(1)
 
         def failure(_):
@@ -169,7 +182,7 @@ def benchmark(tsv_file: str, url: str, jobs: int):
         with Pool(jobs) as pool:
             for datum in data:
                 _ = pool.apply_async(
-                    get_intent,
+                    _get_intent,
                     (client, *datum),
                     callback=success,
                     error_callback=failure,
@@ -206,6 +219,16 @@ F1 scores for each class:
     )
 
     click.echo(f_statistics)
+    click.echo()
+
+    if output:
+        for model_label, correct_label, query in incorrect_lines:
+            click.echo(
+                "\t".join(
+                    (format_error(model_label), correct_label, format_query(query))
+                ),
+                file=output,
+            )
 
 
 if __name__ == "__main__":

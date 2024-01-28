@@ -46,4 +46,4 @@ serve port:
 
 # run benchmarks against the cloud instance
 benchmark:
-    client/benchmark.py --url {{server_instance}} --jobs 64 data/atis/test.tsv
+    client/benchmark.py --url {{server_instance}} -j 64 -o benchmark.errors.tsv -- data/atis/test.tsv
