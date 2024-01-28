@@ -18,7 +18,7 @@ class TestIntentClassifierWithoutModel(unittest.TestCase):
             self.classifier.load("invalid_path")
 
     def test_classify_without_model(self):
-        with self.assertRaises(Exception):
+        with self.assertRaises(TypeError):
             self.classifier.classify("test utterance")
 
 
