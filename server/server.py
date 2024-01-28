@@ -60,7 +60,7 @@ def intent():
             jsonify(
                 {
                     "label": "INTERNAL_ERROR",
-                    "message": f"Something went wrong while processing the request: {e}",
+                    "message": f"Something went wrong: {e}",
                 }
             ),
             500,

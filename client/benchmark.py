@@ -211,9 +211,11 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         for f in (np.min, np.max, np.mean, np.median, np.std, p_95)
     )
 
+    f_rps = format_integer(total / time_taken)
+
     f_statistics = f"""
 Request time: min {f_min}, max {f_max}, avg {f_avg} ± {f_std}, 50% {f_med}, 95% {f_95}
-Real time elapsed: {format_s(time_taken)} ({format_integer(total / time_taken)} requests per second)
+Real time elapsed: {format_s(time_taken)} ({f_rps} requests per second)
 
 Received {f_correct} correct and {f_incorrect} incorrect answers ({f_failed} failed)
 Accuracy: {format_percentage(accuracy)}
