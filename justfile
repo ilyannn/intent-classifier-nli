@@ -7,11 +7,12 @@ _default:
 # Update this list as necessary
 docker_files := "server/Dockerfile*"
 markdown_files := "*.md"
-python_files := "server/*.py server/tests/*.py"
+python_files := "client/*.py server/*.py server/tests/*.py"
 yaml_files := ".github/*/*.yml"
 
 
 container_tool := "podman"
+server_instance := "https://intents.cluster.megaver.se"
 
 
 # format Markdown, YAML and Python files
@@ -41,3 +42,8 @@ test:
 # run the server application in Docker
 serve port:
     {{container_tool}} run -it -p {{port}}:5501 `{{container_tool}} build -q server` 
+
+
+# run benchmarks against the cloud instance
+benchmark:
+    client/benchmark.py --url {{server_instance}} --jobs 64 data/atis/test.tsv
