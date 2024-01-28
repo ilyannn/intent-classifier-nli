@@ -21,7 +21,7 @@ container_tool := "podman"
 # format Markdown, YAML and Python files
 fmt:
     prettier --write -- {{markdown_files}} {{yaml_files}}
-    isort -- {{python_files}}
+    isort --settings-path .github/linters/.isort.cfg -- {{python_files}}
     black -- {{python_files}}
 
 
@@ -32,7 +32,7 @@ lint:
     markdownlint --config .github/linters/.markdown-lint.yml -- {{markdown_files}}
     prettier --check -- {{markdown_files}} {{yaml_files}}
     flake8 --config .github/linters/.flake8 -- {{python_files}}
-    isort --check --diff -- {{python_files}}
+    isort --settings-path .github/linters/.isort.cfg --check --diff -- {{python_files}}
     black --check --fast --diff --color -- {{python_files}}
     pylint --rcfile .github/linters/.python-lint -- {{python_files}} 
 
