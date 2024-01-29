@@ -9,9 +9,8 @@ from intent_classifier import IntentClassifier
 
 DEFAULT_MODEL_PATH = os.getenv("MODEL")
 try:
-    with open("__VERSION__", "rt") as version_file:
-        VERSION = version_file.read().strip()
-except FileNotFoundError:
+    from _version import VERSION
+except ImportError:
     VERSION = None
 
 api = Blueprint("main", __name__)
