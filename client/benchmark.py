@@ -196,7 +196,7 @@ def benchmark(tsv_file, url: str, jobs: int, output):
     )
 
     def p_95(array):
-        np.percentile(array, 95)
+        return np.percentile(array, 95)
 
     f_min, f_max, f_avg, f_med, f_std, f_95 = (
         format_ms(f(req_times))
