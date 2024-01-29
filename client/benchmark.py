@@ -27,7 +27,7 @@ class IntentClassifierClient:
         ready_url = self.api_url + "/ready"
         try:
             return requests.get(ready_url).status_code == 200
-        except ConnectionError:
+        except requests.exceptions.ConnectionError:
             return False
 
     def info(self) -> dict:
@@ -156,10 +156,8 @@ def benchmark(tsv_file, url: str, jobs: int, output):
     client = IntentClassifierClient(url)
 
     while not client.ready():
-        message = format_dim(
-            f"API is not ready, will retry in {RETRY_SECONDS} seconds..."
-        )
-        click.echo(message)
+        message = f"API is not ready, will retry in {RETRY_SECONDS} seconds..."
+        click.echo(format_dim(message))
         time.sleep(RETRY_SECONDS)
 
     click.echo(format_model_info(client.info()))
