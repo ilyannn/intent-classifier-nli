@@ -37,7 +37,7 @@ jobs:
             type=sha
             type=raw,value=run-${{ github.run_number }}-${{ github.run_attempt }}
       - name: Put version in the image
-        run: echo ${{github.ref_name}} > server/VERSION
+        run: echo ${{github.ref_name}} > server/__VERSION__
       - name: Build and push the Docker image
         uses: docker/build-push-action@v5
         with:
