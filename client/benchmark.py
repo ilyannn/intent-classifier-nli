@@ -25,7 +25,13 @@ class IntentClassifierClient:
 
     def ready(self) -> bool:
         ready_url = self.api_url + "/ready"
-        return requests.get(ready_url).status_code == 200
+        try:
+            return requests.get(ready_url).status_code == 200
+        except ConnectionError:
+            return False
+
+    def info(self) -> dict:
+        return requests.get(self.api_url + "/info").json()
 
     def intents(self, text):
         intent_url = self.api_url + "/intent"
@@ -52,6 +58,17 @@ def format_stream(stream):
 
 def format_integer(n):
     return click.style(int(n), fg="cyan")
+
+
+def format_model_info(info):
+    s_name = click.style(info["model"]["name"], fg="white", bold=True)
+    s_path = format_stream(info["model"]["path"])
+    if version := info["version"]:
+        s_version = " (version {})".format(click.style(version, fg="cyan"))
+    else:
+        s_version = ""
+
+    return f"{s_name} using {s_path}{s_version}"
 
 
 def format_ms(seconds):
@@ -144,6 +161,8 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         )
         click.echo(message)
         time.sleep(RETRY_SECONDS)
+
+    click.echo(format_model_info(client.info()))
 
     data = list(csv.reader(tsv_file, delimiter="\t"))
     total = len(data)

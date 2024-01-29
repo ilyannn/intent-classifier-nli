@@ -8,6 +8,11 @@ from flask import Blueprint, Flask, jsonify, request
 from intent_classifier import IntentClassifier
 
 DEFAULT_MODEL_PATH = os.getenv("MODEL")
+try:
+    with open("__VERSION__", "rt") as version_file:
+        VERSION = version_file.read().strip()
+except FileNotFoundError:
+    VERSION = None
 
 api = Blueprint("main", __name__)
 model = IntentClassifier()
@@ -19,6 +24,17 @@ def ready():
         return "OK", 200
     else:
         return "Not ready", 423
+
+
+@api.route("/info")
+def info():
+    return jsonify(
+        {
+            "model": {"name": model.model_name, "path": model.model_path},
+            "ready": model.is_ready(),
+            "version": VERSION,
+        }
+    )
 
 
 @api.route("/intent", methods=["POST"])
