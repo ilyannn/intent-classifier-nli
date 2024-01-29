@@ -48,4 +48,4 @@ ENV MODEL="models/deep.tree.model"
 # /dev/shm is mapped to shared memory and should be used for gunicorn heartbeat
 # this will improve performance and avoid random freezes
 ENTRYPOINT ["gunicorn", "server:create_app()"]
-CMD ["-k", "gthread", "--worker-tmp-dir", "/dev/shm", "-b", "0.0.0.0:5501"]
+CMD ["-k", "gthread", "-w", "4", "--worker-tmp-dir", "/dev/shm", "-b", "0.0.0.0:5501"]
