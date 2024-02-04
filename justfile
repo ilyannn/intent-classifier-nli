@@ -9,7 +9,7 @@ _default:
 # Update this list of files as necessary
 docker_files := "*/Dockerfile*"
 markdown_files := "*.md"
-python_files := "**/*.py"
+python_files := "*/*.py */tests/*.py"
 yaml_files := ".github/*/*.yml"
 
 # Server instance URL for benchmarking

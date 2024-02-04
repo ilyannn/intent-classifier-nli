@@ -3,7 +3,6 @@ import unittest
 
 from intent_classifier import IntentClassifier
 
-
 MODELS_DIR = "models/"
 
 
