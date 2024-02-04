@@ -1,5 +1,4 @@
-# Ignore .github
-.github/
+tests/
 
 # Ignore IDE files
 .vscode/

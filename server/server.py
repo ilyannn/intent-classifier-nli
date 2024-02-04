@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
-
 import argparse
 import os
 
 from flask import Blueprint, Flask, jsonify, request
+from model_package import ModelPackage
 
 from intent_classifier import IntentClassifier
 
@@ -13,24 +12,24 @@ try:
 except ImportError:
     VERSION = None
 
+
 api = Blueprint("main", __name__)
-model = IntentClassifier()
+models = ModelPackage()
 
 
 @api.route("/ready")
 def ready():
-    if model.is_ready():
-        return "OK", 200
-    else:
+    if not models.ready:
         return "Not ready", 423
+    return "OK", 200
 
 
 @api.route("/info")
 def info():
     return jsonify(
         {
-            "model": {"name": model.model_name, "path": model.model_path},
-            "ready": model.is_ready(),
+            "models": models.info(),
+            "ready": models.ready,
             "version": VERSION,
         }
     )
@@ -62,7 +61,7 @@ def intent():
         )
 
     try:
-        intents = model.classify(data["text"])
+        intents = models.classify(data["text"], data.get("requested_model"))
         return (
             jsonify(
                 {
@@ -71,6 +70,16 @@ def intent():
             ),
             200,
         )
+    # except ValueError as e:
+    #     return (
+    #         jsonify(
+    #             {
+    #                 "label": "BAD_REQUEST",
+    #                 "message": f"Incorrect request parameters: {e}",
+    #             }
+    #         ),
+    #         400,
+    #     )
     except Exception as e:
         return (
             jsonify(
@@ -83,13 +92,32 @@ def intent():
         )
 
 
-def create_app(model_path=DEFAULT_MODEL_PATH):
-    if not model_path:
+def create_app(model_paths=DEFAULT_MODEL_PATH):
+    """
+    Function to create a Flask app by loading the models specified.
+
+    :param model_paths: Paths to the model files.
+    This parameter can be a string or a list of strings;
+    each string can contain several semicolon-separated paths.
+    Default is DEFAULT_MODEL_PATH.
+    :return: The Flask app object.
+    :raises ValueError: If model_paths is not provided or is empty.
+    """
+    if not model_paths:
         raise ValueError("Please provide model path as a MODEL environment variable")
 
     app = Flask(__name__)
     app.register_blueprint(api)
-    model.load(model_path)
+
+    if isinstance(model_paths, str):
+        model_paths = [model_paths]
+
+    for model_path in model_paths:
+        for model_path_split in model_path.split(":"):
+            model = IntentClassifier()
+            model.load(model_path_split)
+            models.add(model)
+
     return app
 
 
@@ -101,6 +129,7 @@ def main():
         type=str,
         default=DEFAULT_MODEL_PATH,
         required=not DEFAULT_MODEL_PATH,
+        nargs="+",
         help="Path to model directory or file.",
     )
 
