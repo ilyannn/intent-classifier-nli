@@ -1,3 +1,4 @@
+#!/usr/bin/env just
 # See https://github.com/casey/just for the just command and format explanation
 
 _default:
@@ -41,6 +42,7 @@ lint:
 # test Python files
 test:
     cd server && python -m unittest tests/*.py
+
 
 # run the server application in Docker
 serve port:
