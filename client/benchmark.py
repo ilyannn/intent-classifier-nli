@@ -50,6 +50,13 @@ def format_error(s):
     return click.style(s, fg="red", bold=True)
 
 
+def format_f1_scores(scores: list[tuple[str, int, int, int, float]]):
+    return "\n".join(
+        f"  {label} ({', '.join(map(format_integer, nums))}): {format_confusion(value)}"
+        for label, *nums, value in scores
+    )
+
+
 def format_stream(stream):
     if hasattr(stream, "name"):
         return click.style(stream.name, fg="green", bold=True)
@@ -115,10 +122,15 @@ def f1_scores(confusion_matrix):
                 fp[actual] += value
                 fn[predicted] += value
 
-    return [
+    scores = [
         (lb, tp[lb], fn[lb], fp[lb], f1_score(tp[lb], fn[lb], fp[lb]))
         for lb in sorted(all_labels)
     ]
+
+    def gen_average():
+        yield "AVERAGE", len(scores), sum(s[-1] for s in scores) / len(scores)
+
+    return scores + list(gen_average())
 
 
 def _get_intent(client, query, correct_label):
@@ -230,9 +242,8 @@ Received {f_correct} correct and {f_incorrect} incorrect answers ({f_failed} fai
 Accuracy: {format_percentage(accuracy)}
 
 F1 scores for each class:
-""" + "\n".join(
-        f"  {label} ({', '.join(map(format_integer, nums))}): {format_confusion(value)}"
-        for label, *nums, value in f1_scores(confusion)
+""" + format_f1_scores(
+        f1_scores(confusion)
     )
 
     click.echo(f_statistics)
