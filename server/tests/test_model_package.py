@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 from unittest.mock import Mock
 
 from model_package import ModelPackage
@@ -84,4 +84,4 @@ class TestModel(TestCase):
 
 
 if __name__ == "__main__":
-    unittest.main()
+    main()

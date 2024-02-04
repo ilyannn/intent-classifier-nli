@@ -39,7 +39,7 @@ class ModelPackage:
             return next(
                 ix
                 for ix, model in enumerate(self.models)
-                if model.model_name == key or model.model_path == key
+                if key in (model.model_name, model.model_path)
             )
         except StopIteration:
             return None
