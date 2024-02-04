@@ -1,7 +1,7 @@
 # See https://github.com/casey/just for the just command and format explanation
 
 _default:
-    @just --list --unsorted --justfile {{justfile()}} --list-prefix ····
+    @just --list --unsorted --justfile {{justfile()}} --list-prefix '····'
 
 
 # Update this list as necessary
