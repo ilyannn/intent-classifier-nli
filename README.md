@@ -1,7 +1,7 @@
 # Intent Classifier
 
-We fine-tune an entailment (NLI) model with 12 million parameters and build an intent classification service
-based on it.
+We fine-tune an entailment (NLI)
+model with 12 million parameters and use it in an intent classification service.
 
 ## Deploying the Service
 
