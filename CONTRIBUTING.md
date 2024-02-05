@@ -70,7 +70,7 @@ The maximal line length in Python files is 88.
 
 ## Release Process
 
-When the release tag is created,
+When the **[release tag](https://github.com/ilyannn/intent-classifier/releases)** is created,
 the server-side **[CI workflow](https://github.com/ilyannn/intent-classifier/actions/workflows/docker-image.yml)** should automatically build and push the image to the cloud registry.
 
 The image is deployed to **[intents.cluster.megaver.se](https://intents.cluster.megaver.se/info)**
