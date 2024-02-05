@@ -18,7 +18,9 @@ ENV PATH="/home/myuser/venv/bin:$PATH"
 WORKDIR /workdir
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir wheel \
-    && pip3 install --no-cache-dir gunicorn[gevent] -r requirements.txt
+    && pip3 install --no-cache-dir gunicorn[gevent]  \
+    && pip3 install --no-cache-dir torch==2.2.0+cpu --index-url https://download.pytorch.org/whl/cpu \
+    && pip3 install -r requirements.txt
 
 
 FROM ubuntu:22.04 AS runner-image
