@@ -12,9 +12,6 @@ markdown_files := "*.md"
 python_files := "*/*.py */tests/*.py"
 yaml_files := ".github/*/*.yml"
 
-# Server instance URL for benchmarking
-server_instance := "https://intents.cluster.megaver.se"
-
 # Do you prefer Docker or Podman?
 container_tool := "podman"
 
@@ -49,6 +46,6 @@ serve PORT:
     {{ container_tool }} run -it -p {{ PORT }}:5501 `{{ container_tool }} build -q server` 
 
 
-# run benchmarks against the cloud instance
-benchmark:
-    client/benchmark.py --url {{ server_instance }} -j 64 -o benchmark.errors.tsv -- data/atis/test.tsv
+# run benchmarks against the service
+benchmark URL:
+    client/benchmark.py --url {{ URL }} -j 64 -o benchmark.errors.tsv -- data/atis/test.tsv
