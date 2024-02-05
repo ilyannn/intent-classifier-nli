@@ -1,2 +1,4 @@
 flask
 scikit-learn
+torch>=2.2.0
+transformers

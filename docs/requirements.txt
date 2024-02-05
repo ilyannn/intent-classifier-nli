@@ -7,3 +7,7 @@ scikit-learn
 
 datasets
 transformers
+
+# for now due to https://github.com/huggingface/accelerate/pull/2388
+# the only way to install is clone HEAD and remove torch<2.2.0 restriction
+accelerate

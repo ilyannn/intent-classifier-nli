@@ -45,7 +45,7 @@ ENV PATH="/home/myuser/venv/bin:$PATH"
 COPY *.py .
 COPY models/ models/
 
-ENV MODEL="models/deep.tree.model:models/depth-7.tree.model"
+ENV MODEL="models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep:models/deep.tree.model"
 
 # /dev/shm is mapped to shared memory and should be used for gunicorn heartbeat
 # this will improve performance and avoid random freezes

@@ -1,0 +1,17 @@
+abbreviation	This example asks to explain an abbreviation
+aircraft	This example asks a question about an aircraft type
+airfare	This example asks about the cost of a flight ticket
+airline	This example asks for a list of airlines
+airport	This example asks for an airport name
+capacity	This example asks about the seating capacity of a plane
+cheapest	This example asks about the cheapest fare in the database
+city	This example asks for a city name
+distance	This example asks about the distance between two points
+flight	This example asks to find flights
+flight_no	This example asks to provide a flight number
+flight_time	This example asks to provide a flight time
+ground_fare	This example asks for a rental car or taxi price
+ground_service	This example asks for ground transportation options
+meal	This example asks about available meal choice of the flight
+quantity	This example asks to provide a quantity as an answer
+restriction	This example asks about a restriction
