@@ -56,4 +56,23 @@ We have considered how to simplify model deployment for the new set of intents.
 In the simplest case intents can be added directly to [`labels.txt`]((../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/labels.txt)) and [`base_labels.tsv`](../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/base_labels.tsv).
 If that is not sufficient, a similar fine-tuning procedure can be performed.
 
-The A/B testing or blue/green deployment strategies are maed easier by the ability of the service to dynamically switch models.
+The A/B testing or blue/green deployment strategies are made easier by the ability of the service to dynamically switch models.
+
+
+## References:
+
+Articles:
+
+  - [Zero-Shot Learning in Modern NLP (blog post)](https://joeddav.github.io/blog/2020/05/29/ZSL.html)
+  - [Finetuning Hugging Face Facebook Bart Model (Medium post)](https://medium.com/@lidores98/finetuning-huggingface-facebook-bart-model-2c758472e340)
+  - [How to finetune a zero-shot model for text classification (Stack Overflow)](https://stackoverflow.com/a/76213874)
+  - [Fine-tuning BERT-NLI (summer school by Moritz Laurer)](https://github.com/MoritzLaurer/summer-school-transformers-2023/blob/main/4_tune_bert_nli.ipynb)
+
+HuggingFace:
+
+  - [Fine-tune a pretrained model (docs)](https://huggingface.co/docs/transformers/main/en/training)
+  - [Zero-Shot Classification Pipeline (source)](src/transformers/pipelines/zero_shot_classification.py)
+
+arXiv:
+
+  - [[1909.00161] Benchmarking Zero-shot Text Classification: Datasets, Evaluation and Entailment Approach](https://arxiv.org/abs/1909.00161)
