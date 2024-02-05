@@ -76,3 +76,6 @@ the server-side **[CI workflow](https://github.com/ilyannn/intent-classifier/act
 The image is deployed to **[intents.cluster.megaver.se](https://intents.cluster.megaver.se/info)**
 by updating the corresponding **[Kustomization](https://docs.cluster.megaver.se/cluster/automatic/apps/kustomization.yaml)**
 which is then picked up by the **[Argo CD](https://argocd.cluster.megaver.se)**.
+
+We only build the image for CPU which helps to keep its size manageable
+(about 300 megabytes).
