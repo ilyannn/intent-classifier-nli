@@ -1,17 +1,20 @@
 # Intent Classifier
 
-## Deploying the Classifier Service
+We fine-tune an entailment (NLI) model with 12 million parameters and build an intent classification service
+based on it.
+
+## Deploying the Service
 
 The core classifier service is located in the [`server`](./server) folder.
 The preferred method of running is containerized using your favorite container tool.
 
-### In a Container
+### Containerized Service
 
 An example invocation to run the service locally
 is in the [`justfile`](justfile) and can be run with something like
 
 ```shell
-# modify container_tool variable if the file if you use Docker
+# modify container_tool variable if you use Docker
 just serve 8080
 ```
 
@@ -21,18 +24,19 @@ if you have the **[just](https://github.com/casey/just)** tool installed.
 
 Alternatively, the script [`server/server.py`](server/server.py) can be run
 directly from an appropriate Python environment
-(it can be set up from [`server/requirements.txt`](server/requirements.txt))
+(it can be set up from [`server/requirements.txt`](server/requirements.txt)).
+This should also pick up the GPU device by default.
 
-### Cloud Instance
+### Kubernetes Deployment
 
 The demo version of the classifier is deployed to my personal cluster at
-**[intents.cluster.megaver.se](https://intents.cluster.megaver.se)**.
+**[intents.cluster.megaver.se](https://intents.cluster.megaver.se/info)**.
 It's an economically built cluster, so the performance isn't great, but you can
 test it with a request tool of your choice.
 
 The Kubernetes manifest for deploying the service is shown on **[docs.cluster.megaver.se](https://docs.cluster.megaver.se/cluster/automatic/apps/intent-classifier.yaml)**
 
-## Accessing the Classifier Service
+## Accessing the Service
 
 ### Benchmarking Client
 
@@ -47,7 +51,7 @@ just benchmark
 
 ### API Access
 
-In addition to the provided requirements regarding the `/version` and `/predict`
+In addition to the [provided requirements](docs/TASK.md) regarding the `/version` and `/predict`
 endpoints there are the following features implemented:
 
 1. The `/predict` endpoint accepts the `requested_model` key that can select a specific model. Several models can be specified as an argument or using the `MODEL` environment variable. The first model is the default one.
@@ -55,7 +59,7 @@ endpoints there are the following features implemented:
 
 ## Testing Results
 
-We run the local benchmark as discussed above:
+We run the local ATIS benchmark as discussed above:
 
 ![local-benchmark-atis-test-1.0-10ep.png](docs/assets/local-benchmark-atis-test-1.0-10ep.png)
 
@@ -71,12 +75,12 @@ Among the 18 [model errors](docs/assets/local-benchmark-atis-test-1.0-10ep.error
 - 1 cut-off phrase
 - 1 genuine mistake (`airport` instead of a `flight`)
 
-Overall, we are quite happy about the model's performance.
+Overall, we are quite happy about the model's classification performance.
 
 ## Building the Model
 
-See **[docs/README.md](docs/README.md)**
+See **[docs/README.md](docs/README.md)** to learn how the model was selected and fine-tuned.
 
 ## Contributing
 
-See **[CONTRIBUTING.md](CONTRIBUTING.md)**
+See **[CONTRIBUTING.md](CONTRIBUTING.md)** for the code style and workflow information.

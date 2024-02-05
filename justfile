@@ -28,7 +28,7 @@ fmt:
 
 # lint Markdown, YAML, Dockerfiles and Python files
 lint:
-    hadolint --config .github/linters/.hadolint.yaml  -- {{ docker_files }}
+    hadolint --config .github/linters/.hadolint.yaml -- {{ docker_files }}
     yamllint --config-file .github/linters/.yaml-lint.yml -- {{ yaml_files }}
     markdownlint --config .github/linters/.markdown-lint.yml -- {{ markdown_files }}
     prettier --check -- {{ markdown_files }} {{ yaml_files }}
