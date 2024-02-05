@@ -59,6 +59,8 @@ endpoints there are the following features implemented:
 
 ## Testing Results
 
+### Classification Performance
+
 We run the local ATIS benchmark as discussed above:
 
 ![local-benchmark-atis-test-1.0-10ep.png](docs/assets/local-benchmark-atis-test-1.0-10ep.png)
@@ -76,6 +78,20 @@ Among the 18 [model errors](docs/assets/local-benchmark-atis-test-1.0-10ep.error
 - 1 genuine mistake (`airport` instead of a `flight`)
 
 Overall, we are quite happy about the model's classification performance.
+
+### Deployed Service Testing
+
+The service in the cluster isn't able to handle the `--jobs 64` parameter
+as above for the local test, so we use the `--jobs 3` to test it:
+
+![cluster-benchmark-atis-test-1.0-10ep.png](docs/assets/cluster-benchmark-atis-test-1.0-10ep.png)
+
+We have 1 failure,
+but otherwise the classification results are, as expected, the same.
+Our service has an average request time of 0.5 seconds and a throughput of 6 requests per second.
+One could improve the throughput
+by batching the requests using a message queue
+and performing an inference on a GPU instance.
 
 ## Building the Model
 
