@@ -1,0 +1,18 @@
+flight_time	day_name	what days of the week do flights from san jose to nashville fly on
+flight	day_name	what day of the week do flights from nashville to tacoma fly on
+airport	flight	does the airport at burbank have a flight that comes in from kansas city
+quantity	aircraft	at the charlotte airport how many different types of aircraft are there for us air
+flight	flight+airfare	list all sunday flights from cleveland to nashville and their fares
+airfare	airfare+flight	list the airfare for american airlines flight 19 from jfk to lax
+flight	flight+airfare	i need a round trip flight from san diego to washington dc and the fares
+flight	flight+airfare	i need a round trip from phoenix to washington dc and the fare leaving in the morning
+flight	flight+airline	i need flight and airline information for a flight from denver to salt lake city on monday departing after 5 pm
+flight	flight+airfare	i need flight and fare information for thursday departing prior to 9 am from oakland going to salt lake city
+flight	flight+airfare	i need flight and fare information departing from oakland to salt lake city on thursday before 8 am
+flight_no	flight_no+airline	i need flight numbers and airlines for flights departing from oakland to salt lake city on thursday departing before 8 am
+abbreviation	city	list la
+flight+airfare	flight	give me the flights and fares for a trip to cleveland from miami on wednesday
+quantity	flight	how many northwest flights leave st. paul
+quantity	flight	how many northwest flights leave washington dc
+quantity	flight	how many flights does northwest have leaving dulles
+quantity	flight	how many flights does alaska airlines have to burbank

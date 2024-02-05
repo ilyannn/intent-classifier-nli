@@ -53,6 +53,27 @@ endpoints there are the following features implemented:
 1. The `/predict` endpoint accepts the `requested_model` key that can select a specific model. Several models can be specified on the command line or using the `MODEL` environment variable. The first model is the default one.
 2. A separate endpoint `/info` returns information about the service.
 
+## Testing Results
+
+We run the local benchmark as discussed above:
+
+![local-benchmark-atis-test-1.0-10ep.png](docs/assets/local-benchmark-atis-test-1.0-10ep.png)
+
+The model obtains the accuracy of almost 98% on the test data.
+Among the 18 [model errors](docs/assets/local-benchmark-atis-test-1.0-10ep.errors.tsv) we have
+
+ - 2 rows with the unknown label `day_name`
+ - 1 row that seems to be correctly classified by our model as `airfare`
+ - 1 row that seems to be correctly classified by our model as `flight+airfare`
+ - 5 rows that seem to be correctly classified by our model as `quantity`
+ - 6 rows where `flight` and `flight+airfare` are mixed up
+ - 1 row similarly about `flight_no`
+ - 1 cut-off phrase 
+ - 1 genuine mistake (`airport` instead of a `flight`)
+
+Overall, we are quite happy about the model's performance.
+
+
 ## Building the Model
 
 See **[docs/README.md](docs/README.md)**
