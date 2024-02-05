@@ -3,7 +3,7 @@ import os
 
 from flask import Blueprint, Flask, jsonify, request
 
-from intent_classifier import IntentClassifier
+from intent_classifier import load_intent_classifier
 from model_package import ModelPackage
 
 DEFAULT_MODEL_PATH = os.getenv("MODEL")
@@ -114,9 +114,7 @@ def create_app(model_paths=DEFAULT_MODEL_PATH):
 
     for model_path in model_paths:
         for model_path_split in model_path.split(":"):
-            model = IntentClassifier()
-            model.load(model_path_split)
-            models.add(model)
+            models.add(load_intent_classifier(model_path_split))
 
     return app
 

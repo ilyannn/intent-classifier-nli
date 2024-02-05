@@ -67,9 +67,10 @@ def format_integer(n):
     return click.style(int(n), fg="cyan")
 
 
-def format_model_info(info):
-    s_name = click.style(info["model"]["name"], fg="white", bold=True)
-    s_path = format_stream(info["model"]["path"])
+def format_model_info(info, model_index):
+    model = info["models"][model_index]
+    s_name = click.style(model["name"], fg="white", bold=True)
+    s_path = format_stream(model["path"])
     if version := info["version"]:
         s_version = " (version {})".format(click.style(version, fg="cyan"))
     else:
@@ -149,6 +150,13 @@ def _get_intent(client, query, correct_label):
     help="Base URL for the intents API",
 )
 @click.option(
+    "-m",
+    "--model-index",
+    type=int,
+    default=0,
+    help="Model index for the intents API",
+)
+@click.option(
     "-j",
     "--jobs",
     type=int,
@@ -163,7 +171,7 @@ def _get_intent(client, query, correct_label):
     show_default=True,
     help="Output errors in TSV format (- for stdout)",
 )
-def benchmark(tsv_file, url: str, jobs: int, output):
+def benchmark(tsv_file, url: str, jobs: int, model_index: int, output):
     click.echo(f"Using base URL: {format_url(url)}")
     client = IntentClassifierClient(url)
 
@@ -172,7 +180,7 @@ def benchmark(tsv_file, url: str, jobs: int, output):
         click.echo(format_dim(message))
         time.sleep(RETRY_SECONDS)
 
-    click.echo(format_model_info(client.info()))
+    click.echo(format_model_info(client.info(), model_index))
 
     data = list(csv.reader(tsv_file, delimiter="\t"))
     total = len(data)

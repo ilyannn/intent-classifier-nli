@@ -57,4 +57,4 @@ class ModelPackage:
         if not model.is_ready():
             raise ValueError(f"The specified model {model_key} was not ready")
 
-        return self.models[ix].predict(data)
+        return self.models[ix].classify(data)

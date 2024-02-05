@@ -68,7 +68,7 @@ class TestModel(TestCase):
     def test_model_classify(self):
         test_model = Mock()
         test_model.is_ready.return_value = True
-        test_model.predict.return_value = "answer"
+        test_model.classify.return_value = "answer"
         test_model.model_name = "Test Model"
         test_model.model_path = "/path/to/model"
         self.model_package.add(test_model)

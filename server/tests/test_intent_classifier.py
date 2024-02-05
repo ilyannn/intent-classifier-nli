@@ -1,7 +1,11 @@
 import os
 import unittest
 
-from intent_classifier import *
+from intent_classifier import (
+    IntentClassifierEntailmentModel,
+    IntentClassifierTreeModel,
+    load_intent_classifier,
+)
 
 MODELS_DIR = "models/"
 

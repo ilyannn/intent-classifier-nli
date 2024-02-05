@@ -14,7 +14,7 @@ class IntentClassifierEntailmentModel:
         self.model_name = "Entailment (NLI) Model"
         self.model_path = None
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "")
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.model = None
         self.tokenizer = None
