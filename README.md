@@ -50,7 +50,7 @@ just benchmark
 In addition to the provided requirements regarding the `/version` and `/predict`
 endpoints there are the following features implemented:
 
-1. The `/predict` endpoint accepts the `requested_model` key that can select a specific model. Several models can be specified on the command line or using the `MODEL` environment variable. The first model is the default one.
+1. The `/predict` endpoint accepts the `requested_model` key that can select a specific model. Several models can be specified as an argument or using the `MODEL` environment variable. The first model is the default one.
 2. A separate endpoint `/info` returns information about the service.
 
 ## Testing Results
