@@ -89,9 +89,11 @@ as above for the local test, so we use the `--jobs 3` to test it:
 We have 1 failure,
 but otherwise the classification results are, as expected, the same.
 Our service has an average request time of 0.5 seconds and a throughput of 6 requests per second.
+
 One could improve the throughput
-by batching the requests using a message queue
-and performing an inference on a GPU instance.
+by performing an inference on a GPU instance
+(we get about 100 requests per second on a NVIDIA 3090 card even with a naive implementation)
+and batching the requests using a message queue.
 
 ## Building the Model
 
