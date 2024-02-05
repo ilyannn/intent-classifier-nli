@@ -53,7 +53,7 @@ which reflects their relative simplicity.
 ## Considerations
 
 We have considered how to simplify model deployment for the new set of intents.
-In the simplest case intents can be added directly to [`labels.txt`]((../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/labels.txt)) and [`base_labels.tsv`](../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/base_labels.tsv).
+In the simplest case intents can be added directly to [`labels.txt`](../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/labels.txt) and [`base_labels.tsv`](../server/models/ml-xtremedistil-l6-h256-in-tune-1.0-10ep/base_labels.tsv).
 If that is not sufficient, a similar fine-tuning procedure can be performed.
 
 The A/B testing or blue/green deployment strategies are made easier by the ability of the service to dynamically switch models.
