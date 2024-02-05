@@ -2,8 +2,8 @@
 
 ## Deploying the Classifier Service
 
-The core classifier service is in the [`server`](./server) folder.
-It's containerized and can be built using your favorite container tool.
+The core classifier service is located in the [`server`](./server) folder.
+The preferred method of running is containerized using your favorite container tool.
 
 ### In a Container
 
@@ -36,7 +36,7 @@ The Kubernetes manifest for deploying the service is shown on **[docs.cluster.me
 
 ### Benchmarking Client
 
-There is a benchmarking client provided in the [`server`](./server) folder.
+There is a benchmarking client provided in the [`client`](./client) folder.
 It computes the average accuracy and F1 scores for the label classes.
 You can invoke it on the test part of the ATIS dataset with
 
@@ -62,17 +62,16 @@ We run the local benchmark as discussed above:
 The model obtains the accuracy of almost 98% on the test data.
 Among the 18 [model errors](docs/assets/local-benchmark-atis-test-1.0-10ep.errors.tsv) we have
 
- - 2 rows with the unknown label `day_name`
- - 1 row that seems to be correctly classified by our model as `airfare`
- - 1 row that seems to be correctly classified by our model as `flight+airfare`
- - 5 rows that seem to be correctly classified by our model as `quantity`
- - 6 rows where `flight` and `flight+airfare` are mixed up
- - 1 row similarly about `flight_no`
- - 1 cut-off phrase 
- - 1 genuine mistake (`airport` instead of a `flight`)
+- 2 rows with the unknown label `day_name`
+- 1 row that seems to be correctly classified by our model as `airfare`
+- 1 row that seems to be correctly classified by our model as `flight+airfare`
+- 5 rows that seem to be correctly classified by our model as `quantity`
+- 6 rows where `flight` and `flight+airfare` are mixed up
+- 1 row similarly about `flight_no`
+- 1 cut-off phrase
+- 1 genuine mistake (`airport` instead of a `flight`)
 
 Overall, we are quite happy about the model's performance.
-
 
 ## Building the Model
 
