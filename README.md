@@ -51,11 +51,25 @@ just benchmark
 
 ### API Access
 
-In addition to the [provided requirements](docs/TASK.md) regarding the `/version` and `/predict`
-endpoints there are the following features implemented:
+The following endpoints are implemented.
 
-1. The `/predict` endpoint accepts the `requested_model` key that can select a specific model. Several models can be specified as an argument or using the `MODEL` environment variable. The first model is the default one.
-2. A separate endpoint `/info` returns information about the service.
+#### `/predict`
+
+- Query is provided as `text` key.
+- You get back an array of most probable intents (maximum 3).
+- The `/predict` endpoint accepts the `requested_model` key that can select a specific model.
+- Several models can be specified as an argument or using the `MODEL` environment variable. The first model is the default one.
+
+#### `/ready`
+
+Returns the string `OK` with code 200 when all the models are ready for inference.
+
+#### `/info`
+
+This endpoint returns information about the service,
+such as version
+(when packaging with the [Docker image workflow](.github/workflows/docker-image.yml) it is derived from a tag name)
+and available models.
 
 ## Testing Results
 
